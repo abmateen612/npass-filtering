@@ -1,0 +1,26 @@
+NPASS RDKIT FILTERING SUMMARY
+(Script: rdkit_code.py)
+
+Total compounds in input: 203390
+Invalid SMILES removed: 1418 | left: 201972
+Duplicates removed: 2262 | left: 199710
+Lipinski (0 violations allowed) removed: 94839 | left: 104871
+   (compounds breaking each rule: MW 66099, LogP 41348, HBD 37092, HBA 39679)
+Rotatable bonds (< 10) removed: 4344 | left: 100527
+PAINS removed: 7645 | left: 92882
+
+ADMET filters (applied one after the other):
+ADMET logS >= -5                    removed: 12766 | left: 80116
+ADMET Lipophilicity <= 5            removed: 0     | left: 80116
+ADMET TPSA <= 140                   removed: 3138  | left: 76978
+ADMET Ames <= 0.5                   removed: 21814 | left: 55164
+ADMET Carcinogenicity <= 0.5        removed: 300   | left: 54864
+ADMET Pgp <= 0.5                    removed: 7396  | left: 47468
+ADMET CYP2D6 inhibition <= 0.5      removed: 1055  | left: 46413
+ADMET CYP3A4 inhibition <= 0.5      removed: 2429  | left: 43984
+ADMET hERG <= 0.5                   removed: 6433  | left: 37551
+ADMET DILI <= 0.5                   removed: 9290  | left: 28261
+ADMET PPB <= 90                     removed: 1573  | left: 26688
+ADMET HIA >= 0.5 (good absorption)  removed: 2004  | left: 24684
+
+Final compounds after all filters: 24684

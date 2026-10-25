@@ -1,0 +1,33 @@
+NPASS eNTRy RULES SUMMARY
+(Script: entry_rules.py)
+
+Input: npass_final_filtered_compounds.csv
+SMILES column used: SMILES_USE (Canonical_SMILES, gaps filled from SMILES)
+Missing SMILES: 0 of 24684
+
+Total compounds:              24684
+Valid SMILES:                 24684
+Pass rule 1 (primary amine):  563
+Pass rule 2 (rotb <= 5):      21749
+Pass BOTH -> need 3D:         477
+
+3D globularity step:
+Compounds sent to 3D:         477
+Globularity computed for:     474   (3 failed to give a value)
+Rule 3 cut-off:               globularity <= 0.25
+
+Final eNTRy passes (rules 1+2+3): 453
+
+Ligand preparation:
+SDF written:                  453
+3D failed:                    0
+PDBQT ready for docking:      446
+Skipped (selenium, no Vina atom type): 7
+
+Output folder (Google Drive):
+/content/drive/MyDrive/npass_library/results/docking_ligands_final/
+  sdf/                 one SDF per compound (453)
+  pdbqt/               one PDBQT per compound (446, for Vina / Smina / GNINA)
+  entry_final_all.sdf  all 453 ligands in one file
+  ligand_list.csv      the 446 docking-ready compounds
+  pdbqt_failed.csv     the 7 skipped compounds and the reason
