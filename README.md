@@ -1,11 +1,17 @@
 # NPASS Natural Product Filtering
 
-Two independent filtering scripts applied to the **NPASS** natural product library, to prepare compounds for AI-driven drug discovery and structure-based docking against antimicrobial resistance (AMR) targets.
+Two sequential scripts applied to the **NPASS** natural product library, to prepare compounds for AI-driven drug discovery and structure-based docking against antimicrobial resistance (AMR) targets. The second script takes the filtered output of the first.
+
+**Status:** library prepared for ongoing MS thesis work (REINVENT4). No results are reported here.
 
 | Script | Purpose | Input | Output |
 |---|---|---|---|
 | `rdkit_filtering/rdkit_code.py` | General drug-likeness, assay-interference and ADMET filtering | 203,390 compounds | **24,684 compounds** (library for REINVENT4 thesis work) |
 | `entry_rules/entry_rules.py` | eNTRy rules for Gram-negative accumulation, then docking-ligand preparation | 24,684 compounds | **446 docking-ready ligands** (PDBQT) |
+
+## Data source
+
+Compounds come from the [NPASS database](https://bidd.group/NPASS/) (Natural Products Activity and Species Source), which lists 204,023 unique natural products. The file used here (`npass_compounds.txt`) was read as **203,390** compounds, and this is the input count used throughout this repository. Version / download date: **ADD VERSION OR DATE HERE**. The raw data is not included in this repository.
 
 ---
 
@@ -38,7 +44,7 @@ Two independent filtering scripts applied to the **NPASS** natural product libra
 
 Notes:
 - The Lipinski step removes the most compounds. Individual rule breaks: MW 66,099, LogP 41,348, HBD 37,092, HBA 39,679 (a compound can break more than one rule).
-- The Lipophilicity filter removes 0 compounds because the Lipinski LogP rule has already removed them.
+- The ADMET lipophilicity filter removed 0 compounds: no remaining compound exceeded the cut-off.
 - ADMET values are model predictions from [ADMET-AI](https://github.com/swansonk14/admet_ai), not experimental measurements.
 
 Full log: [`rdkit_filtering/rdkit_filtering_summary.txt`](rdkit_filtering/rdkit_filtering_summary.txt)
@@ -68,11 +74,23 @@ Passing compounds are then converted to 3D SDF files and PDBQT files (Meeko) for
 Notes:
 - Steps are shown one after the other. Applied alone to all 24,684 compounds, Rule 2 would keep 21,749.
 - Globularity could not be calculated for 3 of the 477 compounds, which are therefore counted in Rule 3's removals.
-- 7 selenium-containing compounds were skipped because AutoDock Vina has no atom type for selenium.
+- 453 compounds passed all three rules. 7 selenium-containing compounds were then skipped because AutoDock Vina has no atom type for selenium, leaving **446** docking-ready ligands.
 
 Full log: [`entry_rules/entry_rules_summary.txt`](entry_rules/entry_rules_summary.txt)
 
 ---
+
+## Limitations
+
+- **ADMET filters are model predictions** and assume oral drug-likeness. They are not experimental measurements and may not suit every antibacterial use case.
+- **Filters were applied sequentially**, so the counts removed at each step depend on the order. For example, the hERG and P-gp filters may remove basic amine compounds disproportionately, which could shrink the pool available to the eNTRy primary-amine rule.
+- **The eNTRy rules come from a limited set of compounds**, mainly tested in *E. coli*. They are a prioritisation heuristic, not a guarantee of accumulation in other Gram-negative species such as *A. baumannii*.
+
+## Reproducibility
+
+- 3D structure generation (RDKit ETKDGv3, used for globularity and for docking ligands) uses a fixed random seed of 42.
+- Package versions are pinned in `requirements.txt`.
+- Both scripts print and save a summary log of the counts at every step (see the `.txt` files above).
 
 ## Repository structure
 
@@ -97,10 +115,10 @@ Both scripts were written for **Google Colab** with data stored on Google Drive.
 
 1. Obtain the NPASS compound file from the [NPASS database](https://bidd.group/NPASS/) and place it in your Drive.
 2. Edit the file paths at the top of each script (input file, output folder).
-3. Run `rdkit_code.py`, then `entry_rules.py` on its filtered output.
+3. Run `rdkit_code.py`, then run `entry_rules.py` on its filtered output.
 4. Install the dependencies if needed: `pip install -r requirements.txt`
 
-Raw NPASS data and large output files (CSV, SDF, PDBQT) are not included in this repository.
+Large output files (CSV, SDF, PDBQT) are not included in this repository.
 
 ## Configurable settings
 
