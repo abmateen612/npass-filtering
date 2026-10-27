@@ -11,7 +11,7 @@ Two sequential scripts applied to the **NPASS** natural product library, to prep
 
 ## Data source
 
-Compounds come from the [NPASS database](https://bidd.group/NPASS/) (Natural Products Activity and Species Source), which lists 204,023 unique natural products. The file used here (`npass_compounds.txt`) was read as **203,390** compounds, and this is the input count used throughout this repository. Version / download date: **ADD VERSION OR DATE HERE**. The raw data is not included in this repository.
+Compounds come from the [NPASS database](https://bidd.group/NPASS/) (Natural Products Activity and Species Source), which lists 204,023 unique natural products. The file used here (`npass_compounds.txt`) was read as **203,390** compounds, and this is the input count used throughout this repository. NPASS Version 3.0. The raw data is not included in this repository.
 
 ---
 
